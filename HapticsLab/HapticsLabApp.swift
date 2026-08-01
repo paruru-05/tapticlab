@@ -10,7 +10,7 @@ struct HapticsLabApp: App {
                 .environmentObject(engine)
                 .preferredColorScheme(.dark)
                 .task {
-                    try? engine.start()
+                    _ = try? engine.start()
                 }
         }
     }

@@ -48,7 +48,7 @@ struct AdvancedTab: View {
                             .foregroundStyle(engine.isRunning ? .green : .secondary)
                     }
                     Button {
-                        try? engine.start()
+                        _ = try? engine.start()
                     } label: {
                         Label("Start", systemImage: "play.fill")
                     }

@@ -34,7 +34,7 @@ final class HapticEngineManager: ObservableObject {
             DispatchQueue.main.async {
                 self?.lastEvent = "エンジンがリセットされました"
                 self?.isRunning = false
-                try? self?.start()
+                _ = try? self?.start()
             }
         }
         engine?.stoppedHandler = { [weak self] reason in
@@ -94,15 +94,19 @@ final class HapticEngineManager: ObservableObject {
     }
 
     func playTransient(intensity: Float, sharpness: Float) {
-        let pattern = CHHapticPattern(events: [
-            CHHapticEvent(eventType: .hapticTransient,
-                          parameters: [
-                            CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity),
-                            CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpness)
-                          ],
-                          relativeTime: 0)
-        ], parameters: [])
-        play(pattern)
+        do {
+            let pattern = try CHHapticPattern(events: [
+                CHHapticEvent(eventType: .hapticTransient,
+                              parameters: [
+                                CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity),
+                                CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpness)
+                              ],
+                              relativeTime: 0)
+            ], parameters: [])
+            play(pattern)
+        } catch {
+            lastEvent = "パターン生成エラー: \(error.localizedDescription)"
+        }
     }
 
     func startContinuousIfNeeded(intensity: Float, sharpness: Float) {
@@ -114,7 +118,7 @@ final class HapticEngineManager: ObservableObject {
         stopCurrent()
         do {
             try start()
-            let pattern = CHHapticPattern(events: [
+            let pattern = try CHHapticPattern(events: [
                 CHHapticEvent(eventType: .hapticContinuous,
                               parameters: [
                                 CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity),
