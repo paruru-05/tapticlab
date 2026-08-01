@@ -32,7 +32,7 @@ jobs:
 
       - name: Install XcodeGen (pinned)
         run: |
-          VERSION=2.43.1
+          VERSION=2.46.0
           curl -fsSL -o /tmp/xcodegen.zip \
             "https://github.com/yonaskolb/XcodeGen/releases/download/${VERSION}/xcodegen.zip"
           unzip -q /tmp/xcodegen.zip -d /tmp/xcodegen-dist
